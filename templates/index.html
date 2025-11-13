@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi Sarapan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background: #e3f2fd;
+        }
+        form {
+            background: white;
+            display: inline-block;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        input {
+            margin: 8px;
+            padding: 8px;
+            width: 200px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 8px 15px;
+            border: none;
+            background-color: #1976d2;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0d47a1;
+        }
+        .hasil {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Prediksi Kebiasaan Sarapan 🍽️</h2>
+    <form action="/predict" method="POST">
+        <input type="number" name="energi" placeholder="Energi (1-10)" required><br>
+        <input type="number" name="konsentrasi" placeholder="Konsentrasi (1-10)" required><br>
+        <input type="number" name="produktivitas" placeholder="Produktivitas (1-10)" required><br>
+        <button type="submit">Prediksi</button>
+    </form>
+
+    {% if hasil %}
+        <div class="hasil">{{ hasil }}</div>
+    {% endif %}
+</body>
+</html>

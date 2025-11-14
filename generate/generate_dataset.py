@@ -1,50 +1,38 @@
 import pandas as pd
 import numpy as np
 
+# jumlah data
+N = 2000
+
 np.random.seed(42)
 
-n = 1000
+data = {
+    "Sarapan": np.random.choice([0, 1], size=N),
+    "Berat_Badan": np.random.randint(45, 100, size=N),
+    "Aktivitas": np.random.randint(0, 10, size=N)
+}
 
-# Generate data
-sarapan = np.random.choice([0,1], size=n, p=[0.4, 0.6])
-berat = np.random.normal(70, 12, n).astype(int)
-aktivitas = np.random.randint(0, 10, n)
-usia = np.random.randint(15, 70, n)
-tidur = np.random.randint(3, 10, n)
-gula_harian = np.random.randint(0, 150, n)
-riwayat = np.random.choice([0,1], size=n, p=[0.7, 0.3])
+df = pd.DataFrame(data)
 
-# Skor medis
-score = (
-    (sarapan == 0) * 15 +
-    (berat - 70) * 0.6 +
-    (10 - aktivitas) * 1.2 +
-    (usia - 40) * 0.5 +
-    (7 - tidur) * 2.5 +
-    gula_harian * 0.2 +
-    riwayat * 20
-)
+# aturan realistis untuk label gula darah
+labels = []
+for i in range(N):
+    s = df.loc[i, "Sarapan"]
+    b = df.loc[i, "Berat_Badan"]
+    a = df.loc[i, "Aktivitas"]
 
-# Label berdasarkan score
-label = []
-for s in score:
-    if s < 20:
-        label.append("Rendah")
-    elif s < 55:
-        label.append("Normal")
+    if s == 0 and a <= 2:
+        labels.append("Tinggi")
+    elif s == 0 and a >= 7:
+        labels.append("Rendah")
+    elif b >= 90:
+        labels.append("Tinggi")
+    elif b <= 50:
+        labels.append("Rendah")
     else:
-        label.append("Tinggi")
+        labels.append("Normal")
 
-df = pd.DataFrame({
-    'Sarapan': sarapan,
-    'Berat_Badan': berat,
-    'Aktivitas': aktivitas,
-    'Usia': usia,
-    'Tidur': tidur,
-    'Gula_Harian': gula_harian,
-    'Riwayat_Keluarga': riwayat,
-    'Gula_Darah': label
-})
+df["Gula_Darah"] = labels
 
-df.to_csv("gula_dataset_1000.csv", index=False)
-print("Dataset 1000 baris berhasil dibuat!")
+df.to_csv("dataset_gula.csv", index=False)
+print("Dataset 2000 baris berhasil dibuat → dataset_gula.csv")
